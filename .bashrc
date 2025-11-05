@@ -51,6 +51,99 @@ if [ -f .env ]; then
 fi
 
 
+
+
+ports() {
+  # --- Argument Parsing ---
+  local raw_mode=0
+  if [[ "$1" == "-r" || "$1" == "--raw" ]]; then
+    raw_mode=1
+  elif [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Usage: ports [-r | --raw | -h]"
+    echo "  Default: Display a formatted, truncated table of listening ports."
+    echo "  -r, --raw: Display raw, tab-separated output for scripting."
+    echo "  -h, --help:  Display this help message."
+    return 0
+  elif [[ -n "$1" ]]; then
+    echo "Error: Unknown argument '$1'. Use -h for help." >&2
+    return 1
+  fi
+
+  # --- Core Data Generation ---
+  # This awk script fetches all the necessary data and prints it tab-separated.
+  # The result is sorted numerically by port and stored in a variable.
+  local port_data
+  port_data=$(ss -lntp | awk '
+    # Process lines that contain process information
+    NR > 1 && match($0, /users:\(\("([^"]+)",pid=([0-9]+)/, m) {
+      # Extract PID and process name from regex match
+      pid = m[2];
+      name = m[1];
+
+      # Extract port number from the 4th column (e.g., ":::8000" -> "8000")
+      split($4, addr, ":");
+      port = addr[length(addr)];
+
+      # Get the executable path; handle errors if the process disappears
+      cmd_exe = "readlink -f /proc/" pid "/exe";
+      if ((cmd_exe | getline exe_path) <= 0) { exe_path = "N/A"; }
+      close(cmd_exe);
+
+      # Get the working directory; handle errors
+      cmd_cwd = "readlink -f /proc/" pid "/cwd";
+      if ((cmd_cwd | getline cwd_path) <= 0) { cwd_path = "N/A"; }
+      close(cmd_cwd);
+
+      # Print the result as a tab-separated line
+      printf "%s\t%s\t%s\t%s\t%s\n", port, pid, name, exe_path, cwd_path;
+    }
+  ' | sort -n)
+
+  # Exit gracefully if no listening processes were found
+  if [[ -z "$port_data" ]]; then
+    echo "No processes found listening on TCP ports."
+    return 0
+  fi
+
+  # --- Display Logic ---
+
+  # RAW MODE: Just print the header and the data.
+  if [[ $raw_mode -eq 1 ]]; then
+    echo -e "PORT\tPID\tPROCESS\tEXECUTABLE_PATH\tWORKING_DIRECTORY"
+    echo "$port_data"
+    return 0
+  fi
+
+  # TABLE MODE (Default): Format the data into a perfectly aligned table.
+  (
+    # Define the column width for the path to ensure alignment
+    local MAX_PATH_LEN=75
+    # Create the printf format string dynamically
+    local TBL_FORMAT="%-8s %-10s %-20s %-${MAX_PATH_LEN}s %s\n"
+    # Create a separator line of the correct length
+    local SEPARATOR
+    SEPARATOR=$(printf "%${MAX_PATH_LEN}s" "" | tr ' ' '-')
+
+    # Print the table header and separator
+    printf "$TBL_FORMAT" "PORT" "PID" "PROCESS" "EXECUTABLE_PATH" "WORKING_DIRECTORY"
+    printf "%-8s %-10s %-20s %s %s\n" "--------" "----------" "--------------------" "$SEPARATOR" "-----------------"
+
+    # Read the data line by line and format it
+    echo "$port_data" | while IFS=$'\t' read -r port pid name exe_path cwd_path; do
+      local display_path
+      # Truncate the executable path if it's too long
+      if [ ${#exe_path} -gt $MAX_PATH_LEN ]; then
+        display_path="${exe_path:0:$((MAX_PATH_LEN-3))}..."
+      else
+        display_path="$exe_path"
+      fi
+      # Print the formatted row
+      printf "$TBL_FORMAT" "$port" "$pid" "$name" "$display_path" "$cwd_path"
+    done
+  )
+}
+
+
 # Terminal appearance  ------------------------------------------------------------------------------------------------
 
 function set_ps1_default {
