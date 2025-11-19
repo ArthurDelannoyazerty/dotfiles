@@ -1,0 +1,35 @@
+{
+    // -------------------------------------   CUSTOM USER SETTINGS   -------------------------------------
+    
+    // ----- PYTHON -----
+    "python.terminal.activateEnvironment": false,   // My venv is enabled in my .bashrc, set it to true if you do not load your venv before
+    
+    // ----- FILES -----
+    "files.autoSave": "afterDelay",                 // Auto save active
+    "files.associations": {                         // Some file lint
+        "*.include": "shellscript",
+        "*.log": "log",
+        "*.toml": "toml",
+        "*.env.template": "env"
+    },
+    "files.exclude": {                              // Hide folders/files from the explorer
+        ".venv/": true,
+        "**/__init__.py": true,
+        "**/__pycache__": true,
+        "**/.git": false,
+        "**/environment": true
+    },
+    
+    // ----- FONTS -----
+    "editor.fontFamily": "Iosevka Nerd Font Mono",                      // https://www.nerdfonts.com/font-downloads (Ioveska or JetBrains)
+    "editor.fontLigatures": true,
+    "terminal.integrated.fontFamily": "IosevkaTerm Nerd Font Mono",
+    "terminal.integrated.fontLigatures.enabled": true,
+    
+    // ----- GIT -----
+    "diffEditor.diffAlgorithm": "advanced",                             // https://x.com/notparbez/status/1951422361724436667
+    "diffEditor.experimental.showMoves": true,
+    
+    // ----- GUI -----
+    "workbench.sideBar.location": "right",
+}
