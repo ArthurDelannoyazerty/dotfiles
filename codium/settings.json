@@ -3,7 +3,8 @@
     
     // ----- PYTHON -----
     "python.terminal.activateEnvironment": false,   // My venv is enabled in my .bashrc, set it to true if you do not load your venv before
-    
+    "autoDocstring.docstringFormat": "one-line-sphinx",
+
     // ----- FILES -----
     "files.autoSave": "afterDelay",                 // Auto save active
     "files.associations": {                         // Some file lint
@@ -27,6 +28,7 @@
     "terminal.integrated.fontLigatures.enabled": true,
     
     // ----- GIT -----
+    "git.enableSmartCommit": true,
     "diffEditor.diffAlgorithm": "advanced",                             // https://x.com/notparbez/status/1951422361724436667
     "diffEditor.experimental.showMoves": true,
     
@@ -34,7 +36,15 @@
     "workbench.sideBar.location": "right",
 
     // ----- JUPYTER -----
-    "notebook.lineNumbers": "on"
+    "notebook.lineNumbers": "on",
+
+    // ----- EDITOR -----
+    "editor.minimap.renderCharacters": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+
+    // ----- AI -----
+    "geminicodeassist.enableTelemetry": false
 
 
     /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
