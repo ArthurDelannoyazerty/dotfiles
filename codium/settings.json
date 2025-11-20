@@ -1,5 +1,5 @@
 {
-    // -------------------------------------   CUSTOM USER SETTINGS   -------------------------------------
+    /* -------------------------- CUSTOM USER SETTINGS -------------------------- */
     
     // ----- PYTHON -----
     "python.terminal.activateEnvironment": false,   // My venv is enabled in my .bashrc, set it to true if you do not load your venv before
@@ -32,4 +32,11 @@
     
     // ----- GUI -----
     "workbench.sideBar.location": "right",
+
+    // ----- JUPYTER -----
+    "notebook.lineNumbers": "on"
+
+
+    /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
+
 }
