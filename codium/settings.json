@@ -31,7 +31,8 @@
     "git.enableSmartCommit": true,
     "diffEditor.diffAlgorithm": "advanced",                             // https://x.com/notparbez/status/1951422361724436667
     "diffEditor.experimental.showMoves": true,
-    
+    "git.enableSmartCommit": true,                  // Stash all change before commit auto (+probably other stuff)
+
     // ----- GUI -----
     "workbench.sideBar.location": "right",
 
