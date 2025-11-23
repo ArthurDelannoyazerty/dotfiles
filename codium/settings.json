@@ -46,9 +46,12 @@
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
 
     // ----- AI -----
-    "geminicodeassist.enableTelemetry": false
+    "geminicodeassist.enableTelemetry": false,
 
 
     /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
+
+
+    "workbench.startupEditor": "none"
 
 }
