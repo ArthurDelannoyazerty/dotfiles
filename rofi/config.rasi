@@ -1,0 +1,95 @@
+configuration {
+    modi:                       "drun,run,window";
+    show-icons:                 true;
+    display-drun:               "APPS";
+    display-run:                "RUN";
+    display-window:             "WINDOW";
+    drun-display-format:        "{name}";
+    font:                       "Iosevka Nerd Font 10";
+    icon-theme:                 "Papirus-Dark";
+}
+
+@theme "/dev/null"
+
+* {
+    bg:                         #1e1e2e;
+    bg-alt:                     #313244;
+    fg:                         #cdd6f4;
+    selected:                   #89b4fa;
+    active:                     #a6e3a1;
+    urgent:                     #f38ba8;
+
+    background-color:           @bg;
+    text-color:                 @fg;
+    border-color:               @selected;
+}
+
+window {
+    width:                      500px;
+    height:                     400px;
+    border:                     2px;
+    border-radius:              12px;
+    transparency:               "real";
+    location:                   center;
+    anchor:                     center;
+}
+
+mainbox {
+    children:                   [ inputbar, listview ];
+    padding:                    12px;
+    spacing:                    12px;
+}
+
+inputbar {
+    children:                   [ prompt, entry ];
+    background-color:           @bg-alt;
+    border-radius:              8px;
+    padding:                    12px;
+}
+
+prompt {
+    background-color:           inherit;
+    text-color:                 @selected;
+    padding:                    0 10px 0 0;
+    font:                       "Iosevka Nerd Font Bold 10";
+}
+
+entry {
+    background-color:           inherit;
+    text-color:                 @fg;
+    placeholder:                "Search...";
+    placeholder-color:          #6c7086;
+}
+
+listview {
+    lines:                      8;
+    columns:                    1;
+    scrollbar:                  false;
+    spacing:                    5px;
+}
+
+element {
+    padding:                    8px 12px;
+    border-radius:              8px;
+    spacing:                    10px;
+}
+
+element normal.normal {
+    background-color:           transparent;
+}
+
+element selected.normal {
+    background-color:           @bg-alt;
+    text-color:                 @selected;
+    border:                     0px 0px 0px 2px;
+    border-color:               @selected;
+}
+
+element-icon {
+    size:                       24px;
+    vertical-align:             0.5;
+}
+
+element-text {
+    vertical-align:             0.5;
+}

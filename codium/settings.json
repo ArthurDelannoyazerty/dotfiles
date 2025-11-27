@@ -22,16 +22,17 @@
     },
     
     // ----- FONTS -----
-    "editor.fontFamily": "Iosevka Nerd Font Mono",                      // https://www.nerdfonts.com/font-downloads (Ioveska or JetBrains)
+    "editor.fontFamily": "'Iosevka Nerd Font Mono', monospace",         // https://www.nerdfonts.com/font-downloads (Ioveska or JetBrains)
     "editor.fontLigatures": true,
     "terminal.integrated.fontFamily": "IosevkaTerm Nerd Font Mono",
     "terminal.integrated.fontLigatures.enabled": true,
     
     // ----- GIT -----
-    "git.enableSmartCommit": true,
     "diffEditor.diffAlgorithm": "advanced",                             // https://x.com/notparbez/status/1951422361724436667
     "diffEditor.experimental.showMoves": true,
-    
+    "git.enableSmartCommit": true,                  // Stash all change before commit auto (+probably other stuff)
+    "git.confirmSync": false,
+
     // ----- GUI -----
     "workbench.sideBar.location": "right",
 
@@ -39,14 +40,18 @@
     "notebook.lineNumbers": "on",
 
     // ----- EDITOR -----
+    "editor.minimap.enabled": false,
     "editor.minimap.renderCharacters": false,
     "workbench.iconTheme": "material-icon-theme",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
 
     // ----- AI -----
-    "geminicodeassist.enableTelemetry": false
+    "geminicodeassist.enableTelemetry": false,
 
 
     /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
+
+
+    "workbench.startupEditor": "none"
 
 }
