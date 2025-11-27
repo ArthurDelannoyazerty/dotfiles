@@ -139,24 +139,27 @@ fi
 # 8. Atuin History (Smart Loading)
 # ------------------------------------------------------------------------------
 if exists atuin; then
-    # Disable Up-Arrow sync if you prefer traditional history for up-arrow
-    # bind -x '"\e[A": __atuin_history --shell-up-key-binding'
-    # bind -x '"\eOA": __atuin_history --shell-up-key-binding'
-
-    # 1. Check the Environment Variable from Nix (Most reliable)
-    if [ -n "$BASH_PREEXEC_PATH" ] && [ -f "$BASH_PREEXEC_PATH" ]; then
-        source "$BASH_PREEXEC_PATH"
-    
-    # 2. Check standard locations (Fallback)
-    elif [ -f "/usr/share/bash-preexec/bash-preexec.sh" ]; then
-        source "/usr/share/bash-preexec/bash-preexec.sh"
-    elif [ -f "$HOME/.nix-profile/share/bash-preexec/bash-preexec.sh" ]; then
-        source "$HOME/.nix-profile/share/bash-preexec/bash-preexec.sh"
+    # 1. Download bash-preexec if missing
+    if [ ! -f "$HOME/.bash-preexec.sh" ]; then
+        # Check if curl is available before trying to download
+        if exists curl; then
+            echo "Downloading bash-preexec..."
+            curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o "$HOME/.bash-preexec.sh"
+        else
+            echo "Warning: curl not found, cannot download bash-preexec."
+        fi
     fi
 
-    # Initialize Atuin only if preexec is loaded
-    if type preexec >/dev/null 2>&1; then
+    # 2. Source it and Init Atuin
+    if [ -f "$HOME/.bash-preexec.sh" ]; then
+        source "$HOME/.bash-preexec.sh"
+        
+        # Initialize Atuin now that preexec is loaded
         eval "$(atuin init bash)"
+        
+        # Optional: Bindings to use standard up-arrow key if you prefer
+        # bind -x '"\e[A": __atuin_history --shell-up-key-binding'
+        # bind -x '"\eOA": __atuin_history --shell-up-key-binding'
     else
         echo "Warning: bash-preexec not found. Atuin disabled."
     fi
