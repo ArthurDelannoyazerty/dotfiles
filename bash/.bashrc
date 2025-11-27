@@ -47,9 +47,9 @@ exists eza    && alias ls='eza --icons' # Use eza instead of ls if available
 exists eza    && alias ll='eza -al --icons --group-directories-first'
 
 # Safety
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
+# alias cp='cp -i'
+# alias mv='mv -i'
+# alias rm='rm -i'
 
 # 4. Python & Environment
 # ------------------------------------------------------------------------------
