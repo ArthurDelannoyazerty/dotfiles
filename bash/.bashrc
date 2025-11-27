@@ -139,28 +139,25 @@ fi
 # 8. Atuin History (Smart Loading)
 # ------------------------------------------------------------------------------
 if exists atuin; then
-    # Disable Up-Arrow sync (keep it traditional) if you prefer:
+    # Disable Up-Arrow sync if you prefer traditional history for up-arrow
     # bind -x '"\e[A": __atuin_history --shell-up-key-binding'
     # bind -x '"\eOA": __atuin_history --shell-up-key-binding'
 
-    # Try to find bash-preexec in common locations
-    # (Checking /usr/share and XDG paths common in Nix/Debian)
-    PREEXEC_LOCATIONS=(
-        "/usr/share/bash-preexec/bash-preexec.sh"
-        "$HOME/.nix-profile/share/bash-preexec/bash-preexec.sh"
-        "/etc/profiles/per-user/$USER/share/bash-preexec/bash-preexec.sh"
-    )
-
-    # Only source preexec if the function doesn't already exist
-    if ! type preexec >/dev/null 2>&1; then
-        for file in "${PREEXEC_LOCATIONS[@]}"; do
-            if [ -f "$file" ]; then
-                source "$file"
-                break
-            fi
-        done
+    # 1. Check the Environment Variable from Nix (Most reliable)
+    if [ -n "$BASH_PREEXEC_PATH" ] && [ -f "$BASH_PREEXEC_PATH" ]; then
+        source "$BASH_PREEXEC_PATH"
+    
+    # 2. Check standard locations (Fallback)
+    elif [ -f "/usr/share/bash-preexec/bash-preexec.sh" ]; then
+        source "/usr/share/bash-preexec/bash-preexec.sh"
+    elif [ -f "$HOME/.nix-profile/share/bash-preexec/bash-preexec.sh" ]; then
+        source "$HOME/.nix-profile/share/bash-preexec/bash-preexec.sh"
     fi
 
-    # Initialize Atuin
-    eval "$(atuin init bash)"
+    # Initialize Atuin only if preexec is loaded
+    if type preexec >/dev/null 2>&1; then
+        eval "$(atuin init bash)"
+    else
+        echo "Warning: bash-preexec not found. Atuin disabled."
+    fi
 fi
