@@ -7,6 +7,13 @@
 # ------------------------------------------------------------------------------
 [[ $- != *i* ]] && return
 
+
+# Prepend path to $PATH
+if [ -f /etc/nix-profile.sh ]; then
+  . /etc/nix-profile.sh
+fi
+
+
 # 2. History & Shell Options
 # ------------------------------------------------------------------------------
 # Append to the history file, don't overwrite it
