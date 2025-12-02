@@ -42,8 +42,31 @@
     // ----- EDITOR -----
     "editor.minimap.enabled": false,
     "editor.minimap.renderCharacters": false,
-    "workbench.iconTheme": "material-icon-theme",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Vitesse Dark",
+    "workbench.colorCustomizations": {
+        "[Vitesse Dark]": {
+            // --- FIX 1: Make menu selections visible ---
+            // Color of the item currently selected in Command Palette/Menus
+            "quickInputList.focusBackground": "#363636",
+            "quickInputList.focusForeground": "#ffffff",
+            // Color of items in the file explorer when you click them
+            "list.activeSelectionBackground": "#363636",
+            "list.hoverBackground": "#262626",
+
+            // --- FIX 2: Add borders to separate window sections ---
+            // Border between the file tree and the code
+            "sideBar.border": "#333333",
+            // Border between the activity icons (left) and file tree
+            "activityBar.border": "#333333",
+            // Border around the whole VS Code window (if supported by OS)
+            "window.activeBorder": "#444444",
+            // Border between split code panes
+            "editorGroup.border": "#333333"
+        }
+    },
 
     // ----- AI -----
     "geminicodeassist.enableTelemetry": false,
