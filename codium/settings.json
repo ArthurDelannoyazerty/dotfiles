@@ -42,6 +42,7 @@
     // ----- EDITOR -----
     "editor.minimap.enabled": false,
     "editor.minimap.renderCharacters": false,
+    "terminal.integrated.suggest.enabled": false,
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
     
     "workbench.iconTheme": "material-icon-theme",
