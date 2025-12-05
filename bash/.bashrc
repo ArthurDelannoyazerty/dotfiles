@@ -7,7 +7,17 @@
 # ------------------------------------------------------------------------------
 [[ $- != *i* ]] && return
 
-# 2. History & Shell Options
+# 2. Path Setup (Crucial for User-installed binaries)
+# ------------------------------------------------------------------------------
+# Ensure .local/bin is in PATH for starship and other tools
+if [ -d "$HOME/.local/bin" ]; then
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+fi
+
+# 3. History & Shell Options
 # ------------------------------------------------------------------------------
 # Append to the history file, don't overwrite it
 shopt -s histappend
@@ -23,7 +33,7 @@ HISTCONTROL=ignoreboth:erasedups
 # Update window size after each command (good for containers)
 shopt -s checkwinsize
 
-# 3. Universal Aliases (Only if command exists)
+# 4. Universal Aliases (Only if command exists)
 # ------------------------------------------------------------------------------
 # Helper to check if a command exists
 exists() { command -v "$1" >/dev/null 2>&1; }
@@ -51,7 +61,7 @@ exists eza    && alias ll='eza -al --icons --group-directories-first'
 # alias mv='mv -i'
 # alias rm='rm -i'
 
-# 4. Python & Environment
+# 5. Python & Environment
 # ------------------------------------------------------------------------------
 # Add Cargo/Rust to path if it exists
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
@@ -66,7 +76,7 @@ if [ -f .env ]; then
     export $(grep -v '^#' .env | xargs) 2>/dev/null
 fi
 
-# 5. Functions
+# 6. Functions
 # ------------------------------------------------------------------------------
 # Ports function (Robust version)
 ports() {
@@ -106,61 +116,49 @@ ports() {
     ' | sort -n
 }
 
-# 6. Prompt Configuration (Priority: Starship > Pureline > Default)
+# 7. Prompt Configuration (Starship > Default)
 # ------------------------------------------------------------------------------
-if exists starship; then
-    # -- OPTION A: STARSHIP (Recommended) --
-    eval "$(starship init bash)"
-else
-    # -- OPTION B: PURELINE (Fallback) --
-    # Only run this block if Starship is missing
-    if [ ! -d "$HOME/pureline" ]; then
-        git clone https://github.com/chris-marsh/pureline.git "$HOME/pureline" -q 2>/dev/null
-    fi
-
-    if [ -f "$HOME/pureline/pureline" ]; then
-        # Default to a simple config if yours is missing
-        CONFIG="$HOME/pureline/configs/powerline_full_256col.conf"
-        [ -f "$HOME/.pureline.personal.conf" ] && CONFIG="$HOME/.pureline.personal.conf"
+# Check if starship is installed; if not, try to install it locally
+if ! exists starship; then
+    if exists curl; then
+        # Ensure target dir exists
+        mkdir -p "$HOME/.local/bin"
         
-        source "$HOME/pureline/pureline" "$CONFIG"
-    else
-        # -- OPTION C: BASIC FALLBACK --
-        export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        # Install without sudo
+        # echo "Starship not found. Installing to ~/.local/bin..."
+        curl -sS https://starship.rs/install.sh | sh -s -- -b "$HOME/.local/bin" >/dev/null 2>&1
+        
+        # Refresh hash map so shell finds the new command immediately
+        hash -r
     fi
 fi
 
-# 7. Command Not Found Hook (Optional)
+if exists starship; then
+    eval "$(starship init bash)"
+else
+    # Fallback if installation failed (no curl, no internet, etc.)
+    export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+fi
+
+# 8. Command Not Found Hook (Optional)
 # ------------------------------------------------------------------------------
 if [ -f /usr/share/doc/pkgfile/command-not-found.bash ]; then
     source /usr/share/doc/pkgfile/command-not-found.bash
 fi
 
-# 8. Atuin History (Smart Loading)
+# 9. Atuin History (Smart Loading)
 # ------------------------------------------------------------------------------
 if exists atuin; then
     # 1. Download bash-preexec if missing
     if [ ! -f "$HOME/.bash-preexec.sh" ]; then
-        # Check if curl is available before trying to download
         if exists curl; then
-            echo "Downloading bash-preexec..."
             curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o "$HOME/.bash-preexec.sh"
-        else
-            echo "Warning: curl not found, cannot download bash-preexec."
         fi
     fi
 
     # 2. Source it and Init Atuin
     if [ -f "$HOME/.bash-preexec.sh" ]; then
         source "$HOME/.bash-preexec.sh"
-        
-        # Initialize Atuin now that preexec is loaded
         eval "$(atuin init bash)"
-        
-        # Optional: Bindings to use standard up-arrow key if you prefer
-        # bind -x '"\e[A": __atuin_history --shell-up-key-binding'
-        # bind -x '"\eOA": __atuin_history --shell-up-key-binding'
-    else
-        echo "Warning: bash-preexec not found. Atuin disabled."
     fi
 fi
