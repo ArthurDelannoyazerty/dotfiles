@@ -10,7 +10,7 @@ BACKUP_DIR="$HOME/.dotfiles_backup"
 declare -A SYMLINK_MAP=(
   ["bash/.bashrc"]=".bashrc"
   ["hyprland/hyprland.conf"]=".config/hypr/hyprland.conf"
-  ["starship/starship.toml"]=".config/starship.toml"]
+  ["starship/starship.toml"]=".config/starship.toml"
 )
 
 echo "🚀 Starting dotfiles setup..."

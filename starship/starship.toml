@@ -1,14 +1,13 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 format = """
 [](color_bg)\
-
-[╱ ](fg:color_fg bg:color_bg)\
 $directory\
-([╱ ](fg:color_fg bg:color_bg)$git_branch)\
-
+[](fg:color_bg)\
 $fill\
 [](fg:color_bg)\
 [ ](bg:color_bg)\
+$git_branch\
+$git_status\
 ($status[╱ ](fg:color_fg bg:color_bg))\
 ($cmd_duration[╱ ](fg:color_fg bg:color_bg))\
 ($jobs[╱ ](fg:color_fg bg:color_bg))\
@@ -27,11 +26,10 @@ $fill\
 ($rust[╱ ](fg:color_fg bg:color_bg))\
 ($hostname[╱ ](fg:color_fg bg:color_bg))\
 $time\
+[╱ ](fg:color_fg bg:color_bg)\
+$os\
 [](fg:color_bg)
 $character\
-$git_status\
-[](fg:color_bg)\
-$os\
 """
 
 add_newline = true
@@ -96,12 +94,12 @@ truncate_to_repo = false
 truncation_length = 0
 
 [git_branch]
-format = '[$symbol$branch(:$remote_branch) ]($style)'
+format = '[$symbol$branch(:$remote_branch) ]($style)[╱ ](fg:color_fg bg:color_bg)'
 symbol = " "
 style = 'bold fg:76 bg:color_bg'
 
 [git_status]
-format = '([$all_status$ahead_behind]($style))'
+format = '([$all_status$ahead_behind]($style)[╱ ](fg:color_fg bg:color_bg))'
 style = 'bold fg:246 bg:color_bg'
 conflicted = '~${count} '
 stashed = '*${count} '
@@ -119,9 +117,9 @@ format = '[$symbol$loaded/$allowed ]($style)'
 style = 'bold fg:178 bg:color_bg'
 
 [hostname]
-format = '[$ssh_symbol$hostname]($style)'
+format = '[$hostname]($style)'
 style = 'fg:180 bg:color_bg'
-ssh_symbol = '@'
+ssh_symbol = ''
 
 [c]
 format = '[$symbol($version(-$name) )]($style)'
