@@ -9,8 +9,6 @@ BACKUP_DIR="$HOME/.dotfiles_backup"
 # key = path within the dotfiles repo | value = path in the home directory
 declare -A SYMLINK_MAP=(
   ["bash/.bashrc"]=".bashrc"
-  ["pureline/.pureline.job.conf"]=".pureline.job.conf"
-  ["pureline/.pureline.personal.conf"]=".pureline.personal.conf"
   ["hyprland/hyprland.conf"]=".config/hypr/hyprland.conf"
 )
 
