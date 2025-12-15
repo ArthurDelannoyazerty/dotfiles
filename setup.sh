@@ -3,14 +3,16 @@
 # Stop on first error
 set -e
 
-DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="$HOME/dotfiles"
 BACKUP_DIR="$HOME/.dotfiles_backup"
 
 # key = path within the dotfiles repo | value = path in the home directory
 declare -A SYMLINK_MAP=(
   ["bash/.bashrc"]=".bashrc"
-  ["hyprland/hyprland.conf"]=".config/hypr/hyprland.conf"
   ["starship/starship.toml"]=".config/starship.toml"
+  ["code/settings.json"]=".config/Code/Users/settings.json"
+  ["code/keybindings.json"]=".config/Code/Users/keybindings.json"
+  ["code/launch.json"]=".config/Code/Users/launch.json"
 )
 
 echo "🚀 Starting dotfiles setup..."
