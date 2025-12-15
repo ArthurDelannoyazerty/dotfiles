@@ -77,7 +77,7 @@ symbol = '─'
 style = 'fg:240'
 
 [os]
-format = '[ $symbol]($style)'
+format = '[$symbol]($style)'
 style = 'fg:255 bg:color_bg'
 disabled = false
 

@@ -66,6 +66,8 @@
             "window.activeBorder": "#444444",
             // Border between split code panes
             "editorGroup.border": "#333333"
+            // Text selection highlight
+            "editor.selectionBackground": "#5252524d"
         }
     },
 
