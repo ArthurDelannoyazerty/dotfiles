@@ -1,7 +1,8 @@
 # Setup dotfiles
 ```bash
-git clone https://github.com/ArthurDelannoyazerty/dotfiles.git ~/.dotfiles
-sh ~/.dotfiles/setup.sh
+cd ~
+git clone https://github.com/ArthurDelannoyazerty/dotfiles.git
+sh ~/dotfiles/setup.sh
 ```
 
 # Modify dotfiles
