@@ -17,6 +17,14 @@ if [ -d "$HOME/.local/bin" ]; then
     esac
 fi
 
+# Add .atuin/bin (default install location for atuin)
+if [ -d "$HOME/.atuin/bin" ]; then
+    case ":$PATH:" in
+        *":$HOME/.atuin/bin:"*) ;;
+        *) export PATH="$HOME/.atuin/bin:$PATH" ;;
+    esac
+fi
+
 # 3. History & Shell Options
 # ------------------------------------------------------------------------------
 # Append to the history file, don't overwrite it
@@ -63,9 +71,6 @@ exists eza    && alias ll='eza -al --icons --group-directories-first'
 
 # 5. Python & Environment
 # ------------------------------------------------------------------------------
-# Add Cargo/Rust to path if it exists
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-
 # Auto-activate Python Virtual Environments (.venv)
 if [ -z "$VIRTUAL_ENV" ] && [ -f ".venv/bin/activate" ]; then
     source ".venv/bin/activate"
