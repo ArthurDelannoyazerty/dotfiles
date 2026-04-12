@@ -10,9 +10,9 @@ BACKUP_DIR="$HOME/.dotfiles_backup"
 declare -A SYMLINK_MAP=(
   ["bash/.bashrc"]=".bashrc"
   ["starship/starship.toml"]=".config/starship.toml"
-  ["code/settings.json"]=".config/Code/Users/settings.json"
-  ["code/keybindings.json"]=".config/Code/Users/keybindings.json"
-  ["code/launch.json"]=".config/Code/Users/launch.json"
+  ["code/settings.json"]=".config/Code/User/settings.json"
+  ["code/keybindings.json"]=".config/Code/User/keybindings.json"
+  ["code/launch.json"]=".config/Code/User/launch.json"
 )
 
 echo "🚀 Starting dotfiles setup..."

@@ -65,7 +65,7 @@
             // Border around the whole VS Code window (if supported by OS)
             "window.activeBorder": "#444444",
             // Border between split code panes
-            "editorGroup.border": "#333333"
+            "editorGroup.border": "#333333",
             // Text selection highlight
             "editor.selectionBackground": "#5252524d"
         }
@@ -78,6 +78,7 @@
     /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
 
 
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+    "chat.disableAIFeatures": true
 
 }
