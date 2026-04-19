@@ -167,3 +167,125 @@ if exists atuin; then
         eval "$(atuin init bash)"
     fi
 fi
+
+
+# ---------------------------------------------------------------------------- #
+#                                 HELP FUNCTION                                #
+# ---------------------------------------------------------------------------- #
+
+h() {
+    local target_domain=$1
+    
+    # ---------------------------------------------------------
+    # DATA DEFINITION
+    # Format:  domain:command:Short description of the command
+    # ---------------------------------------------------------
+    local raw_data="
+system:lshw:List detailed hardware configuration
+system:hwinfo:Detailed hardware information
+system:dmidecode:Read SMBIOS/DMI hardware info
+system:ps:Snapshot of current running processes (procps)
+system:grep:Search text for patterns (gnugrep)
+system:find:Search for files in a directory hierarchy
+system:tar:Store or extract files from an archive
+system:unzip:Extract zip archives
+system:zip:Create zip archives
+network:dig:DNS lookup and debugging
+network:tcpdump:Network packet analyzer
+network:nmap:Network scanner and port checker
+network:ethtool:Network interface controller configuration
+network:cloudflared:Cloudflare tunnel daemon
+network:curl:Transfer data from or to a server
+network:wget:Network file downloader
+network:netstat:Print network connections and routing tables
+storage:iotop:I/O usage monitor (like top for disk)
+storage:smartctl:Check HDD/SSD health (smartmontools)
+storage:parted:Disk partitioning tool
+storage:duf:Modern, user-friendly disk usage utility
+monitoring:htop:Interactive process viewer
+monitoring:btop:Modern, visually appealing resource monitor
+monitoring:nvitop:Interactive NVIDIA GPU monitor
+monitoring:lsof:List open files and the processes using them
+monitoring:sensors:Check CPU temperatures and fan speeds
+monitoring:killall:Kill processes by their name
+docker:lazydocker:Terminal UI to manage Docker containers
+docker:ctop:Top-like interface for container metrics
+hyprland:waybar:Highly customizable Wayland status bar
+hyprland:rofi:Application launcher and window switcher
+hyprland:kitty:Fast, feature-rich GPU-based terminal
+hyprland:hyprlock:Screen locker for Hyprland
+hyprland:wl-copy:Copy content to the Wayland clipboard
+hyprland:wl-paste:Paste content from the Wayland clipboard
+hyprland:grim:Take screenshots (entire screen or region)
+hyprland:slurp:Select a specific region for screenshots
+hyprland:dunst:Lightweight notification daemon
+audio:pavucontrol:GUI volume mixer for PulseAudio/PipeWire
+audio:pactl:PulseAudio CLI tools to manage sound
+tools:git:Distributed version control system
+tools:vim:Highly configurable text editor
+tools:bat:A cat clone with syntax highlighting
+tools:eza:A modern replacement for the ls command
+tools:fzf:Command-line fuzzy finder
+tools:tree:Display directories as trees
+fonts:fc-list:List all available fonts on the system
+fonts:fc-match:Match and display the closest font
+shortcuts:Super + Enter:Open Kitty terminal
+shortcuts:Super + D:Open Rofi app launcher
+shortcuts:Super + Shift + S:Take a screenshot with grim/slurp
+"
+
+    # Remove empty lines
+    local clean_data=$(echo "$raw_data" | grep -v '^\s*$')
+    
+    # Extract domains, preserving their first-seen order
+    local domains=$(echo "$clean_data" | awk -F':' '{if (!seen[$1]++) print $1}')
+
+    # Helper function to print the table for a specific domain
+    print_domain() {
+        local d=$1
+        echo -e "\n\033[1;34m=== $d ===\033[0m"
+        # Changed 'echo' to 'printf' so formatting logic works properly
+        printf "\033[1m %s | %-18s | %s\033[0m\n" "OK" "Command" "Description"
+        echo "----+--------------------+--------------------------------------------------"
+        
+        # Awk filters the domain, while the bash loop performs the live `command -v` check
+        echo "$clean_data" | awk -F':' -v dom="$d" 'tolower($1) == tolower(dom)' | while IFS=":" read -r dom cmd desc; do
+            local icon="❌"
+            if [ "$dom" = "shortcuts" ]; then
+                icon="⚡" # Neutral icon for shortcuts since they are not binaries
+            elif command -v "$cmd" >/dev/null 2>&1; then
+                icon="✅"
+            fi
+            
+            # Print the formatted row with the emoji status
+            printf " %s | \033[36m%-18s\033[0m | %s\n" "$icon" "$cmd" "$desc"
+        done
+    }
+
+    if [ -z "$target_domain" ]; then
+        # NO ARGUMENT: Print everything
+        for d in $domains; do
+            print_domain "$d"
+        done
+        
+        # Print list of available domains at the end
+        echo -e "\n\033[1;33m>>> Available Domains:\033[0m"
+        echo "$domains" | paste -sd, - | sed 's/,/, /g'
+        
+    else
+        # DOMAIN PROVIDED: Check if it exists (case-insensitive)
+        local matched_domain=$(echo "$domains" | grep -i "^$target_domain$")
+        
+        if [ -z "$matched_domain" ]; then
+            echo -e "\n\033[31mError: Domain '$target_domain' not found.\033[0m"
+            echo -e "\n\033[1;33m>>> Available Domains:\033[0m"
+            echo "$domains" | paste -sd, - | sed 's/,/, /g'
+        else
+            # Print just the requested domain
+            print_domain "$matched_domain"
+        fi
+    fi
+
+    # ALWAYS display the tldr hint at the very bottom
+    echo -e "\n\033[1;32m💡 Hint:\033[0m Use \033[1;37mtldr <command>\033"
+}

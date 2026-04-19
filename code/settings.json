@@ -19,10 +19,9 @@
         "**/__pycache__": true,
         "**/.git": false,
         "**/environment": true
-    },
+    }, // https://www.nerdfonts.com/font-downloads (Ioveska or JetBrains)
     
-    // ----- FONTS -----
-    "editor.fontFamily": "'Iosevka Nerd Font Mono', monospace",         // https://www.nerdfonts.com/font-downloads (Ioveska or JetBrains)
+    "editor.fontFamily": "'Iosevka Nerd Font Mono', monospace",
     "editor.fontLigatures": true,
     "terminal.integrated.fontFamily": "IosevkaTerm Nerd Font Mono",
     "terminal.integrated.fontLigatures.enabled": true,
@@ -80,5 +79,4 @@
 
     "workbench.startupEditor": "none",
     "chat.disableAIFeatures": true
-
 }
