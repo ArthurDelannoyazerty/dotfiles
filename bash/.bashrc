@@ -69,8 +69,6 @@ exists eza    && alias ll='eza -al --icons --group-directories-first'
 # alias mv='mv -i'
 # alias rm='rm -i'
 
-# custom
-alias coolercontrol='coolercontrol --disable-gpu'
 
 # 5. Python & Environment
 # ------------------------------------------------------------------------------
