@@ -1,0 +1,40 @@
+* {
+    background-image: none;
+    box-shadow: none;
+}
+
+window {
+    /* Semi-transparent black background covering the whole screen */
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+button {
+    /* Remove default styling */
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    outline-style: none;
+    
+    /* Button background */
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #FFFFFF;
+    
+    /* Typography using your Nerd Font */
+    font-family: "IosevkaTerm Nerd Font", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    
+    /* Spacing */
+    margin: 10px;
+    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Your Hyprland border colors */
+    border: 2px solid rgba(51, 204, 255, 0.8);
+}
+
+button:focus {
+    background-color: rgba(0, 255, 153, 0.2);
+    border: 2px solid rgba(0, 255, 153, 0.8);
+}
