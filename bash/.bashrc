@@ -69,6 +69,9 @@ exists eza    && alias ll='eza -al --icons --group-directories-first'
 # alias mv='mv -i'
 # alias rm='rm -i'
 
+# SSH Agent Bitwarden
+export SSH_AUTH_SOCK=~/.bitwarden-ssh-agent.sock
+
 
 # 5. Python & Environment
 # ------------------------------------------------------------------------------
