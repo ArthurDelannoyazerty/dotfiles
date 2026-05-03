@@ -27,5 +27,15 @@
         "key": "ctrl+f5",
         "command": "-workbench.action.debug.run",
         "when": "debuggersAvailable && debugState != 'initializing'"
+    },
+    {
+        "key": "ctrl+[Period]",
+        "command": "editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+[Period]",
+        "command": "-editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
     }
 ]
