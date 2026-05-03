@@ -78,5 +78,9 @@
 
 
     "workbench.startupEditor": "none",
-    "chat.disableAIFeatures": true
+    "yaml.schemas": {
+        "file:///home/arthur/.vscode/extensions/continue.continue/config-yaml-schema.json": [
+            ".continue/**/*.yaml"
+        ]
+    }
 }
