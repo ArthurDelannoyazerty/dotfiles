@@ -14,7 +14,7 @@ if [ "$ACTION" == "record" ] && pgrep -x "wf-recorder" > /dev/null; then
     LATEST_VID=$(ls -t "$VID_DIR"/record_*.mp4 2>/dev/null | head -n 1)
     
     if [ -n "$LATEST_VID" ]; then
-        notify-send -i video-x-generic -A "open=📂 Show" "⏺️ Recording Stopped" "Video saved to Videos" | xargs -I {} [ {} = "open" ] && dolphin --select "$LATEST_VID"
+        notify-send -i video-x-generic -A "open=📂 Show" "⏺️ Recording Stopped" "Video saved to Videos" | xargs -I {} [ {} = "open" ] && thunar "$LATEST_VID"
     fi
     exit 0
 fi
@@ -45,7 +45,7 @@ if [ "$ACTION" == "screenshot" ]; then
     sleep 0.1 
     grim -g "$TARGET" "$FILE"
     wl-copy < "$FILE"
-    notify-send -i "$FILE" -A "open=📂 Show" "📸 Screenshot Saved" "Copied to clipboard" | xargs -I {} [ {} = "open" ] && dolphin --select "$FILE"
+    notify-send -i "$FILE" -A "open=📂 Show" "📸 Screenshot Saved" "Copied to clipboard" | xargs -I {} [ {} = "open" ] && thunar "$FILE"
 
 elif [ "$ACTION" == "record" ]; then
     mkdir -p "$VID_DIR"
