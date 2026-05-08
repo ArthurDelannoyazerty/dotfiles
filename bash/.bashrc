@@ -179,6 +179,49 @@ fi
 
 h() {
     local target_domain=$1
+
+    # ---------------------------------------------------------
+    # SPECIAL HANDLER: Starship Prompt Explanation
+    # ---------------------------------------------------------
+    if [ "$target_domain" = "starship" ]; then
+        echo -e "\n\033[1;34m=== STARSHIP PROMPT EXPLANATION ===\033[0m"
+        echo -e "\n\033[1;37mYour prompt is dynamic. Many fields are 'contextual' and only appear when relevant\033[0m"
+        echo -e "\033[1;37m(e.g., the Python icon appears only when in a Python project or virtualenv).\033[0m\n"
+
+        echo -e "\033[1;33m1. ALWAYS VISIBLE & CORE FIELDS\033[0m"
+        echo -e "  \033[36m  path\033[0m      : Current directory (\033[31m󰌾\033[0m means you don't have write permissions)"
+        echo -e "  \033[34m─\033[0m           : Dynamic filler line stretching across the screen"
+        echo -e "  \033[36m18:32 \033[0m     : Current local time"
+        echo -e "  \033[37m / \033[0m       : OS Logo (e.g., Ubuntu, Arch, NixOS, Windows)"
+        echo -e "  \033[32m❯\033[0m / \033[31m❯\033[0m       : Prompt character (\033[32mGreen\033[0m = OK, \033[31mRed\033[0m = Last command failed)\n"
+
+        echo -e "\033[1;33m2. GIT INFORMATION (Visible only in Git repositories)\033[0m"
+        echo -e "  \033[32m branch\033[0m    : Current Git branch"
+        echo -e "  \033[37m+1 !2 ?3 ✘4\033[0m : Changes -> \033[32m+\033[0m(Staged) \033[33m!\033[0m(Modified) \033[35m?\033[0m(Untracked) \033[31m✘\033[0m(Deleted) \033[34m»\033[0m(Renamed) \033[36m*\033[0m(Stashed) \033[31m~\033[0m(Conflicted)"
+        echo -e "  \033[37m⇡1 ⇣2\033[0m       : Commits Ahead (⇡) or Behind (⇣) the remote branch"
+        echo -e "  \033[37m⇠1 ⇢2\033[0m       : Diverged (you have local commits, and remote has new commits)\n"
+
+        echo -e "\033[1;33m3. EXECUTION & ENVIRONMENT (Visible when triggered)\033[0m"
+        echo -e "  \033[31m✘ 127\033[0m       : The last command failed with this specific error code"
+        echo -e "  \033[37m10s \033[0m       : Command duration (Appears if a command takes longer than 3 seconds)"
+        echo -e "  \033[36m✦ 2\033[0m         : Number of background jobs running (e.g., commands paused with Ctrl+Z)"
+        echo -e "  \033[33mdirenv\033[0m      : Directory environment status (loaded/allowed)"
+        echo -e "  \033[33m host\033[0m      : Hostname (Only appears when you are connected via SSH)\n"
+
+        echo -e "\033[1;33m4. CONTEXTUAL LANGUAGES & TOOLS (Visible in specific project folders)\033[0m"
+        echo -e "  \033[33m \033[0m          : Python (Virtual environment active or .py files present)"
+        echo -e "  \033[31m \033[0m          : Node.js (package.json or .js files present)"
+        echo -e "  \033[31m󱘗 \033[0m          : Rust (Cargo.toml or .rs files present)"
+        echo -e "  \033[32m /  \033[0m      : C / C++"
+        echo -e "  \033[34m \033[0m          : CMake"
+        echo -e "  \033[31m \033[0m          : Java"
+        echo -e "  \033[34m \033[0m          : Lua"
+        echo -e "  \033[31m \033[0m          : Ruby"
+        echo -e "  \033[32m \033[0m          : Conda Environment"
+        echo -e "  \033[34m \033[0m          : Docker Context or Container active"
+        echo -e "\n\033[1;32m💡 Pro Tip:\033[0m Contextual tools gracefully hide themselves when you leave their directory!"
+        return
+    fi
     
     # ---------------------------------------------------------
     # DATA DEFINITION
@@ -249,7 +292,6 @@ shortcuts:Super + Shift + S:Take a screenshot with grim/slurp
     print_domain() {
         local d=$1
         echo -e "\n\033[1;34m=== $d ===\033[0m"
-        # Changed 'echo' to 'printf' so formatting logic works properly
         printf "\033[1m %s | %-18s | %s\033[0m\n" "OK" "Command" "Description"
         echo "----+--------------------+--------------------------------------------------"
         
@@ -275,7 +317,7 @@ shortcuts:Super + Shift + S:Take a screenshot with grim/slurp
         
         # Print list of available domains at the end
         echo -e "\n\033[1;33m>>> Available Domains:\033[0m"
-        echo "$domains" | paste -sd, - | sed 's/,/, /g'
+        echo "starship, $(echo "$domains" | paste -sd, - | sed 's/,/, /g')"
         
     else
         # DOMAIN PROVIDED: Check if it exists (case-insensitive)
@@ -284,7 +326,7 @@ shortcuts:Super + Shift + S:Take a screenshot with grim/slurp
         if [ -z "$matched_domain" ]; then
             echo -e "\n\033[31mError: Domain '$target_domain' not found.\033[0m"
             echo -e "\n\033[1;33m>>> Available Domains:\033[0m"
-            echo "$domains" | paste -sd, - | sed 's/,/, /g'
+            echo "starship, $(echo "$domains" | paste -sd, - | sed 's/,/, /g')"
         else
             # Print just the requested domain
             print_domain "$matched_domain"
