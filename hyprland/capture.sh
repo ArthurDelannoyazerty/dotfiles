@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ACTION=$1
-IMG_DIR="$HOME/Pictures" # Changed from Images to standard Pictures
+IMG_DIR="$HOME/Pictures"
 VID_DIR="$HOME/Videos"
 
 # 1. STOP RECORDING LOGIC
@@ -14,7 +14,7 @@ if [ "$ACTION" == "record" ] && pgrep -x "wf-recorder" > /dev/null; then
     LATEST_VID=$(ls -t "$VID_DIR"/record_*.mp4 2>/dev/null | head -n 1)
     
     if [ -n "$LATEST_VID" ]; then
-        notify-send -i video-x-generic -A "open=📂 Show" "⏺️ Recording Stopped" "Video saved to Videos" | xargs -I {} [ {} = "open" ] && thunar "$LATEST_VID"
+        notify-send -i video-x-generic -A "open=📂 Show" "⏺️ Recording Stopped" "Video saved to Videos" | grep -qx "open" && thunar "$LATEST_VID"
     fi
     exit 0
 fi
@@ -45,7 +45,7 @@ if [ "$ACTION" == "screenshot" ]; then
     sleep 0.1 
     grim -g "$TARGET" "$FILE"
     wl-copy < "$FILE"
-    notify-send -i "$FILE" -A "open=📂 Show" "📸 Screenshot Saved" "Copied to clipboard" | xargs -I {} [ {} = "open" ] && thunar "$FILE"
+    notify-send -i "$FILE" -A "open=📂 Show" "📸 Screenshot Saved" "Copied to clipboard" | grep -qx "open" && thunar "$FILE"
 
 elif [ "$ACTION" == "record" ]; then
     mkdir -p "$VID_DIR"
