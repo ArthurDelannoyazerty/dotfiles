@@ -202,6 +202,7 @@ network:cloudflared:Cloudflare tunnel daemon
 network:curl:Transfer data from or to a server
 network:wget:Network file downloader
 network:netstat:Print network connections and routing tables
+network:nmtui:Wifi TUI
 storage:iotop:I/O usage monitor (like top for disk)
 storage:smartctl:Check HDD/SSD health (smartmontools)
 storage:parted:Disk partitioning tool
