@@ -14,7 +14,10 @@ if [ "$ACTION" == "record" ] && pgrep -x "wf-recorder" > /dev/null; then
     LATEST_VID=$(ls -t "$VID_DIR"/record_*.mp4 2>/dev/null | head -n 1)
     
     if [ -n "$LATEST_VID" ]; then
-        notify-send -i video-x-generic -A "open=📂 Show" "⏺️ Recording Stopped" "Video saved to Videos" | grep -qx "open" && thunar "$LATEST_VID"
+        ACTION_BTN=$(notify-send -i video-x-generic -A "default=Open" "⏺️ Recording Stopped" "Click to open")
+        if [[ "$ACTION_BTN" == *"default"* ]]; then
+            nohup nautilus --select "$LATEST_VID" </dev/null >/dev/null 2>&1 & disown
+        fi
     fi
     exit 0
 fi
@@ -45,7 +48,11 @@ if [ "$ACTION" == "screenshot" ]; then
     sleep 0.1 
     grim -g "$TARGET" "$FILE"
     wl-copy < "$FILE"
-    notify-send -i "$FILE" -A "open=📂 Show" "📸 Screenshot Saved" "Copied to clipboard" | grep -qx "open" && thunar "$FILE"
+    
+    ACTION_BTN=$(notify-send -i "$FILE" -A "default=Open" "📸 Screenshot Saved" "Click to open")
+    if [[ "$ACTION_BTN" == *"default"* ]]; then
+        nohup nautilus --select "$FILE" </dev/null >/dev/null 2>&1 & disown
+    fi
 
 elif [ "$ACTION" == "record" ]; then
     mkdir -p "$VID_DIR"
