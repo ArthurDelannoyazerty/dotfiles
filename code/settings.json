@@ -45,7 +45,7 @@
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
     
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.colorTheme": "Vitesse Dark",
+    "workbench.colorTheme": "Vitesse Dark Custom",
     "workbench.colorCustomizations": {
         "[Vitesse Dark]": {
             // --- FIX 1: Make menu selections visible ---
