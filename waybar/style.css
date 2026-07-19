@@ -1,115 +1,63 @@
+/* Import Matugen generated colors */
+@import "colors.css";
+
 * {
     border: none;
-    border-radius: 0;
+    border-radius: 0px;
     font-family: "Iosevka Nerd Font Mono", monospace; 
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     min-height: 0;
+    margin: 0px;
+    padding: 0px; 
 }
 
 window#waybar {
-    background: transparent;
-    color: #cdd6f4;
+    background: transparent; 
 }
 
-tooltip {
-    background: #1e1e2e;
-    border-radius: 10px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #11111b;
+/* Create the solid, continuous background for the left and right blocks */
+.modules-left,
+.modules-right {
+    background-color: @background;
+    padding: 0px 8px; /* Slight padding at the very edges of the screen */
+    border-radius: 0px;
 }
 
+/* Ensure individual widgets have no background so they fuse into the block */
+#clock,
+#workspaces,
+#tray,
+#network,
+#pulseaudio,
+#battery {
+    background-color: transparent;
+    color: @text; /* Text color stays unified */
+    padding: 4px 10px;
+    margin: 0px; /* Force no gaps between items */
+    border-radius: 0px;
+}
+
+/* Active workspace highlights */
 #workspaces button {
-    padding: 5px;
-    color: #313244;
-    margin-right: 5px;
+    color: @text;
+    padding: 0px 8px;
+    background-color: transparent;
+    border-radius: 0px;
 }
 
 #workspaces button.active {
-    color: #a6adc8;
-    background: #11111b;
-    border-radius: 10px;
+    background-color: @primary;
+    color: @background; /* Invert text color on the active box for contrast */
 }
 
 #workspaces button:hover {
-    background: #11111b;
-    color: #cdd6f4;
-    border-radius: 10px;
+    background-color: @accent; /* Use your generated accent color */
+    color: @background;
 }
 
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor,
-#mpd {
-    padding: 0 10px;
-    color: #cdd6f4;
-    border-radius: 15px;
-    background: #1e1e2e;
-    margin: 6px 3px 6px 3px;
-}
-
-#window,
-#workspaces {
-    margin: 0 4px;
-}
-
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 0;
-}
-
-.modules-right > widget:last-child > #workspaces {
-    margin-right: 0;
-}
-
-#clock {
-    color: #fab387;
-}
-
-#battery {
-    color: #a6e3a1;
-}
-
-#battery.charging, #battery.plugged {
-    color: #a6e3a1;
-}
-
+/* Red battery warning */
 #battery.critical:not(.charging) {
     background-color: #f38ba8;
-    color: #bf5656;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-label:focus {
-    background-color: #000000;
-}
-
-#network {
-    color: #89b4fa;
-}
-
-#network.disconnected {
-    color: #f38ba8;
-}
-
-#pulseaudio {
-    color: #f9e2af;
-}
-
-#pulseaudio.muted {
-    color: #a6adc8;
+    color: #11111b;
 }

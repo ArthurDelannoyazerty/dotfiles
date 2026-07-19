@@ -2,15 +2,40 @@
 
 # Directory containing your wallpapers
 WALLPAPER_DIR="$HOME/Pictures/wallpaper"
+LOCKFILE="/tmp/slideshow.lock"
 
-# Start awww-daemon if it isn't running already (using -f for NixOS store-path robustness)
+# --- 1. Robust Single-Instance Check using Lockfile ---
+if [ -f "$LOCKFILE" ]; then
+    DAEMON_PID=$(cat "$LOCKFILE" 2>/dev/null)
+    # Check if the process in the lockfile is actually active
+    if [ -n "$DAEMON_PID" ] && kill -0 "$DAEMON_PID" 2>/dev/null; then
+        # Send signal to the running daemon and exit the duplicate process
+        kill -USR1 "$DAEMON_PID"
+        exit 0
+    fi
+fi
+
+# Write current PID to the lockfile to claim the daemon role
+echo "$$" > "$LOCKFILE"
+
+# Clean up lockfile if the daemon exits cleanly
+trap 'rm -f "$LOCKFILE"; exit' INT TERM EXIT
+
+# --- 2. Daemon Setup ---
 if ! pgrep -f "awww-daemon" > /dev/null; then
     awww-daemon &
     sleep 0.5
 fi
 
-# Function to rotate the wallpaper and update color schemes
+# Global variable to track the active sleep process
+SLEEP_PID=""
+
 rotate_wallpaper() {
+    # If a sleep process is currently running, terminate it so it doesn't leak
+    if [ -n "$SLEEP_PID" ]; then
+        kill "$SLEEP_PID" 2>/dev/null
+    fi
+
     # Pick a random image from the folder
     local wallpaper
     wallpaper=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | shuf -n 1)
@@ -20,26 +45,33 @@ rotate_wallpaper() {
         return 1
     fi
 
-    # 1. Update wallpaper via awww with a smooth visual transition
+    # Update wallpaper
     awww img "$wallpaper" \
         --transition-type grow \
         --transition-pos top-right \
         --transition-duration 2.5 \
         --transition-fps 60
 
-    # 2. Extract colors and write config files
-    # We pass --source-color-index 0 to skip the interactive selection prompt
+    # Extract colors
     matugen image "$wallpaper" --source-color-index 0
 
-    # 3. Request Waybar to soft-reload its styles
+    # Reload UI components
     pkill -SIGUSR2 waybar
-
-    # 4. Refresh Hyprland config (updates active border colors dynamically)
     hyprctl reload
 }
 
-# Run the rotation instantly, then loop every 30 minutes (1800 seconds)
+# Register signal handler to trigger rotation
+trap 'rotate_wallpaper' USR1
+
+# Run the initial rotation
+rotate_wallpaper
+
+# --- 3. Interruptible Loop ---
 while true; do
-    rotate_wallpaper
-    sleep 1800
+    # Run sleep in background and store its process ID
+    sleep 1800 &
+    SLEEP_PID=$!
+    
+    # Wait for the background sleep to finish or get interrupted
+    wait "$SLEEP_PID"
 done

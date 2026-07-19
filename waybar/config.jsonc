@@ -5,12 +5,15 @@
     "exclusive": true,
     "passthrough": false,
     "gtk-layer-shell": true,
-    "height": 0,
+    "height": 30,
+    
     "modules-left": [
         "clock",
         "hyprland/workspaces"
     ],
-    "modules-center": ["hyprland/window"],
+    
+    "modules-center": [],
+    
     "modules-right": [
         "tray",
         "network",
@@ -18,66 +21,42 @@
         "battery"
     ],
 
-    "hyprland/window": {
-        "format": "{}"
-    },
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
-        "on-click": "activate",
-        //"format": "{icon}",
-        "persistent-workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": []
-        }
+        "on-click": "activate"
     },
+    
     "tray": {
-        "icon-size": 13,
+        "icon-size": 14,
         "spacing": 10
     },
+    
     "clock": {
-        "format": " {:%H:%M   %e %b}",
+        "format": " {:%H:%M  %d/%m/%Y}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
+    
     "pulseaudio": {
         "format": "{icon} {volume}%",
-        "tooltip": false,
         "format-muted": " Muted",
         "on-click": "pamixer -t",
-        "on-scroll-up": "pamixer -i 5",
-        "on-scroll-down": "pamixer -d 5",
         "scroll-step": 5,
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
             "default": ["", "", ""]
         }
     },
+    
     "network": {
         "format-wifi": "{icon} {signalStrength}%",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{essid} - {ifname} via {gwaddr}",
-        "format-linked": "{ifname} (No IP)",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
+        "format-ethernet": " Wired",
+        "format-disconnected": "⚠ Offline",
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
     },
+    
     "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
-        },
         "format": "{icon} {capacity}%",
         "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{time} {icon}",
         "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     }
 }
