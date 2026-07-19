@@ -51,6 +51,9 @@ rotate_wallpaper() {
         --transition-pos top-right \
         --transition-duration 2.5 \
         --transition-fps 60
+    
+    mkdir -p "$HOME/.cache"
+    ln -sf "$wallpaper" "$HOME/.cache/current_wallpaper"
 
     # Extract colors
     matugen image "$wallpaper" --source-color-index 0
