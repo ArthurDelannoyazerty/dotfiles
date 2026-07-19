@@ -1,0 +1,15 @@
+
+[config]
+
+
+[templates.hyprland]
+input_path = '~/.config/matugen/templates/hyprland-colors.conf'
+output_path = '~/.config/hypr/conf/colors.conf'
+
+[templates.waybar]
+input_path = '~/.config/matugen/templates/waybar-colors.conf'
+output_path = '~/.config/waybar/colors.css'
+
+[templates.hyprlock]
+input_path = '~/.config/matugen/templates/hyprlock-colors.conf'
+output_path = '~/.config/hypr/conf/hyprlock-colors.conf'
