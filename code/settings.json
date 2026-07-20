@@ -82,5 +82,6 @@
         "file:///home/arthur/.vscode/extensions/continue.continue/config-yaml-schema.json": [
             ".continue/**/*.yaml"
         ]
-    }
+    },
+    "explorer.confirmDragAndDrop": false
 }

@@ -1,0 +1,24 @@
+{
+    "label": "suspend",
+    "action": "systemctl suspend",
+    "text": "Sleep",
+    "keybind": "u"
+}
+{
+    "label": "reboot",
+    "action": "systemctl reboot",
+    "text": "Restart",
+    "keybind": "r"
+}
+{
+    "label": "shutdown",
+    "action": "systemctl poweroff",
+    "text": "Shut Down",
+    "keybind": "s"
+}
+{
+    "label": "other",
+    "action": "nohup $HOME/.config/wlogout/launch.sh other --wait >/dev/null 2>&1 &",
+    "text": "",
+    "keybind": "o"
+}

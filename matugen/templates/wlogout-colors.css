@@ -1,0 +1,4 @@
+@define-color primary {{colors.primary.default.hex}};
+@define-color background {{colors.background.default.hex}};
+@define-color surface {{colors.surface_variant.default.hex}};
+@define-color text {{colors.on_background.default.hex}};

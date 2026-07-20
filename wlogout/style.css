@@ -1,40 +1,318 @@
+@import "colors.css";
+
 * {
     background-image: none;
     box-shadow: none;
+    text-shadow: none;
+
+    font-family:
+        "Inter",
+        "Cantarell",
+        "Noto Sans",
+        sans-serif;
 }
 
 window {
-    /* Semi-transparent black background covering the whole screen */
-    background-color: rgba(0, 0, 0, 0.6);
+    /*
+     * Translucent wallpaper-colored scrim.
+     * Hyprland supplies the blur.
+     */
+    background-color: alpha(@background, 0.28);
 }
 
 button {
-    /* Remove default styling */
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.05);
-    outline-style: none;
-    
-    /* Button background */
-    background-color: rgba(30, 30, 30, 0.8);
-    color: #FFFFFF;
-    
-    /* Typography using your Nerd Font */
-    font-family: "IosevkaTerm Nerd Font", sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    
-    /* Spacing */
-    margin: 10px;
-    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+    color: @text;
+    background-color: alpha(@surface, 0.96);
+
+    border: none;
+    border-radius: 0;
+    margin: 0;
+
+    /*
+     * PANEL_WIDTH is 680px:
+     * 4 × (142px content + 28px horizontal padding) = 680px.
+     */
+    min-width: 142px;
+
+    /*
+     * Less space between the circle and label.
+     * Previously: 108px 14px 20px
+     */
+    padding: 100px 14px 18px;
+
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+
+    /*
+     * Icon and circle share the same vertical center:
+     * icon:   44px + 17px = 61px
+     * circle: 25px + 36px = 61px
+     */
+    background-repeat: no-repeat, no-repeat;
+    background-position: center 44px, center 25px;
+    background-size: 34px 34px, 72px 72px;
+
+    transition-property: background-color, color;
+    transition-duration: 140ms;
+    transition-timing-function: ease-in-out;
 }
 
-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    /* Your Hyprland border colors */
-    border: 2px solid rgba(51, 204, 255, 0.8);
+/*
+ * Keep label color independent from the parent button color.
+ * This lets hover recolor only the symbolic icon.
+ */
+button label {
+    color: @text;
+
+    font-family:
+        "Inter",
+        "Cantarell",
+        "Noto Sans",
+        sans-serif;
+
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
 }
 
 button:focus {
-    background-color: rgba(0, 255, 153, 0.2);
-    border: 2px solid rgba(0, 255, 153, 0.8);
+    outline-style: none;
+    outline-width: 0;
+    outline-offset: 0;
+    box-shadow: none;
 }
+
+button:hover {
+    /*
+     * Slight adaptive tint while preserving the unified panel.
+     */
+    color: @background;
+    background-color: mix(@surface, @primary, 0.10);
+}
+
+button:active {
+    background-color: mix(@surface, @primary, 0.18);
+}
+
+/* Rounded outer edges */
+
+#suspend,
+#lock {
+    border-radius: 30px 0 0 30px;
+}
+
+#other,
+#back {
+    border-radius: 0 30px 30px 0;
+}
+
+/* Subtle separators */
+
+#suspend,
+#reboot,
+#shutdown,
+#lock,
+#logout,
+#hibernate {
+    border-right: none;
+    box-shadow: inset -1px 0 alpha(@text, 0.10);
+}
+
+/*
+ * Default circle.
+ *
+ * GTK 3 requires each color stop to have one position.
+ * Repeating the color creates the solid center, followed by a
+ * short transparent transition for an antialiased edge.
+ */
+
+#suspend {
+    background-image:
+        -gtk-icontheme("weather-clear-night-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#reboot {
+    background-image:
+        -gtk-icontheme("view-refresh-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#shutdown {
+    background-image:
+        -gtk-icontheme("system-shutdown-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#other {
+    background-image:
+        -gtk-icontheme("view-more-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#lock {
+    background-image:
+        -gtk-icontheme("system-lock-screen-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#logout {
+    background-image:
+        -gtk-icontheme("system-log-out-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#hibernate {
+    background-image:
+        -gtk-icontheme("media-playback-pause-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+#back {
+    background-image:
+        -gtk-icontheme("go-previous-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            alpha(@text, 0.10) 0%,
+            alpha(@text, 0.10) 96%,
+            transparent 100%
+        );
+}
+
+/* Accent-colored circles on hover */
+
+#suspend:hover {
+    background-image:
+        -gtk-icontheme("weather-clear-night-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#reboot:hover {
+    background-image:
+        -gtk-icontheme("view-refresh-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#shutdown:hover {
+    background-image:
+        -gtk-icontheme("system-shutdown-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#other:hover {
+    background-image:
+        -gtk-icontheme("view-more-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#lock:hover {
+    background-image:
+        -gtk-icontheme("system-lock-screen-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#logout:hover {
+    background-image:
+        -gtk-icontheme("system-log-out-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#hibernate:hover {
+    background-image:
+        -gtk-icontheme("media-playback-pause-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+#back:hover {
+    background-image:
+        -gtk-icontheme("go-previous-symbolic"),
+        radial-gradient(
+            circle 35px at center,
+            @primary 0%,
+            @primary 96%,
+            transparent 100%
+        );
+}
+
+
+/*
+ * The Other button has no label, so center both its icon and circle
+ * vertically within the complete tile.
+ */
+#other,
+#other:hover,
+#other:active {
+    background-position: center center, center center;
+}
+
