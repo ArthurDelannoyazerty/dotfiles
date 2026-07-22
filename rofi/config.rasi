@@ -59,7 +59,7 @@ dummy {
 /* RIGHT PANE: Search Bar & App List */
 listbox {
     padding: 25px;
-    spacing: 15px;
+    spacing: 19px;
     orientation: vertical;
     children: [ "inputbar", "listview" ];
 }
@@ -83,7 +83,7 @@ entry {
 /* APPLICATION LIST */
 listview {
     columns: 1;
-    lines: 7;
+    lines: 6;
     cycle: true;
     dynamic: true;
     scrollbar: false;
@@ -94,7 +94,7 @@ listview {
 
 /* INDIVIDUAL ITEMS */
 element {
-    padding: 10px;
+    padding: 6px 10px;
     spacing: 15px;
     border-radius: 4px;
 }
@@ -110,7 +110,7 @@ element selected.normal {
 }
 
 element-icon {
-    size: 24px;
+    size: 28px;
 }
 
 element-text {
