@@ -62,7 +62,8 @@ start_awww_daemon() {
         return 0
     fi
 
-    awww-daemon >/dev/null 2>&1 &
+    # Explicitly close lock file descriptors (8 and 9) so awww-daemon doesn't inherit them
+    awww-daemon 8>&- 9>&- >/dev/null 2>&1 &
 
     # Wait briefly for the daemon socket instead of relying on one fixed sleep.
     for attempt in {1..30}; do
@@ -157,10 +158,12 @@ rotate_wallpaper() (
     local resolved
     local extension
 
-    # Serialize one-shot and periodic rotations so they cannot update Matugen and
-    # the cache symlink at the same time.
     exec 8>"$ROTATE_LOCK"
-    flock -x 8
+    # Use non-blocking flock (-n) so manual triggering via shortcut never freezes
+    if ! flock -n 8; then
+        printf 'Wallpaper rotation is already in progress.\n' >&2
+        return 0
+    fi
 
     wallpaper="$(pick_wallpaper)" || return 1
     resolved="$(readlink -f -- "$wallpaper" 2>/dev/null || true)"
@@ -222,7 +225,7 @@ run_loop() {
     while ((stop_requested == 0)); do
         rotate_wallpaper || true
 
-        sleep "$INTERVAL_SECONDS" &
+        sleep "$INTERVAL_SECONDS" 8>&- 9>&- &
         sleep_pid=$!
         wait "$sleep_pid" 2>/dev/null || true
         sleep_pid=""
