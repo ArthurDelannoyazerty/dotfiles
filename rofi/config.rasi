@@ -1,120 +1,113 @@
 configuration {
-    modi:                       "drun,run,filebrowser,window";
-    show-icons:                 true;
-    display-drun:               "";
-    drun-display-format:        "{name}";
-    font:                       "Iosevka Nerd Font 10";
+    /* Only display the drun (application) mode */
+    modi: "drun";
+    show-icons: true;
+    display-drun: "";
+    
+    /* Clean application names (no generic descriptions) */
+    drun-display-format: "{name}";
+    font: "Iosevka Nerd Font 12";
+    
+    /* FIX FOR SEARCH BUG: Strict matching & fzf sorting */
+    sort: true;
+    sorting-method: "fzf";
+    drun-match-fields: "name";
 }
 
-/* Color Palette based on your image */
-* {
-    bg-light:    #D9D9D9;    /* Light grey background */
-    bg-dark:     #BDBDBD;    /* Selected item grey */
-    search-bg:   #EEEEEE;    /* Search bar background */
-    txt:         #222222;    /* Dark text */
-    accent:      #888888;
-}
+/* Import Matugen Colors */
+@import "colors.rasi"
 
 window {
-    width:            900px;
-    height:           450px;
-    border-radius:    20px;
-    background-color: @bg-light;
-    border:           0px;
+    width: 750px;
+    height: 400px;
+    
+    /* Sharp corners and 1px primary border matching Hyprland */
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: @primary;
+    
+    background-color: @background;
+    padding: 0px;
 }
 
 mainbox {
-    orientation:  horizontal;
-    children:     [ "left-pane", "listbox" ];
+    orientation: horizontal;
+    children: [ "imagebox", "listbox" ];
     background-color: transparent;
 }
 
-/* Left Pane: Image + Search + Modes */
-left-pane {
-    expand:           false;
-    width:            500px;
-    background-image: url("~/dotfiles/rofi/sidebar.jpg", height);
+/* Left Pane: Current Wallpaper */
+imagebox {
+    expand: false;
+    width: 280px;
+    /* Automatically loads the dynamic wallpaper symlink */
+    background-image: url("~/.cache/current_wallpaper", height);
     background-color: transparent;
-    orientation:      vertical;
-    children:         [ "inputbar", "dummy", "mode-switcher" ];
 }
 
-/* Right Pane: App List */
+/* Right Pane: Search & App List */
 listbox {
-    spacing:          10px;
-    padding:          30px;
-    background-color: @bg-light;
-    children:         [ "listview" ];
+    padding: 20px;
+    spacing: 15px;
+    orientation: vertical;
+    children: [ "inputbar", "listview" ];
+    background-color: transparent;
 }
 
-/* Search Bar (Top Left) */
+/* Search Bar */
 inputbar {
-    margin:           20px;
-    padding:          10px 15px;
-    background-color: @search-bg;
-    border-radius:    10px;
-    children:         [ "prompt", "entry" ];
+    padding: 12px;
+    background-color: @surface;
+    border: 1px solid;
+    border-color: @inactive;
+    border-radius: 0px;
+    children: [ "prompt", "entry" ];
 }
 
 prompt {
-    margin:           0px 10px 0px 0px;
-    text-color:       @txt;
+    text-color: @primary;
     background-color: transparent;
+    margin: 0px 10px 0px 0px;
 }
 
 entry {
-    placeholder:      "Search";
-    text-color:       @txt;
+    placeholder: "Search applications...";
+    text-color: @text;
     background-color: transparent;
 }
 
-/* List of Apps */
+/* Application List */
 listview {
-    columns:          1;
-    cycle:            true;
-    dynamic:          true;
-    layout:           vertical;
+    columns: 1;
+    lines: 7;
+    cycle: true;
+    dynamic: true;
+    layout: vertical;
     background-color: transparent;
+    spacing: 5px;
 }
 
 element {
-    padding:          12px;
-    border-radius:    12px;
+    padding: 10px;
+    spacing: 15px;
     background-color: transparent;
-    text-color:       @txt;
-    spacing:          15px;
+    text-color: @text;
+    border-radius: 0px;
 }
 
+/* Selected Application Highlight */
 element selected {
-    background-color: @bg-dark;
-    text-color:       #000000;
+    background-color: @primary;
+    text-color: @background;
 }
 
 element-icon {
-    size:             32px;
-}
-
-/* Mode Buttons (Bottom Left) */
-mode-switcher {
-    margin:           20px;
-    spacing:          10px;
+    size: 24px;
     background-color: transparent;
 }
 
-button {
-    padding:          10px;
-    background-color: @search-bg;
-    text-color:       @txt;
-    border-radius:    8px;
-    horizontal-align: 0.5;
-}
-
-button selected {
-    background-color: @bg-dark;
-}
-
-/* Utility to push buttons to bottom */
-dummy {
-    expand:           true;
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit; /* Inherits the inverted color when selected */
     background-color: transparent;
 }
