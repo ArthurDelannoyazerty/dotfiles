@@ -48,7 +48,8 @@ check_dependencies() {
     local missing=0
     local command_name
 
-    for command_name in find flock readlink pgrep awww awww-daemon matugen; do
+    # Added 'magick' to the dependencies check
+    for command_name in find flock readlink pgrep awww awww-daemon matugen magick; do
         require_command "$command_name" || missing=1
     done
 
@@ -157,6 +158,7 @@ rotate_wallpaper() (
     local wallpaper
     local resolved
     local extension
+    local rofi_cropped
 
     exec 8>"$ROTATE_LOCK"
     # Use non-blocking flock (-n) so manual triggering via shortcut never freezes
@@ -192,6 +194,17 @@ rotate_wallpaper() (
     mkdir -p "$CACHE_DIR"
     ln -sfn -- "$resolved" "$CURRENT_LINK"
     printf '%s\n' "$resolved" > "$CACHE_DIR/current_wallpaper.path"
+
+    # ---------------------------------------------------------
+    # ImageMagick Processing for exactly 711x400 Rofi image
+    # ---------------------------------------------------------
+    rofi_cropped="$CACHE_DIR/rofi_processed.jpg"
+    if magick "$resolved" -resize 711x400^ -gravity center -extent 711x400 "$rofi_cropped" >/dev/null 2>&1; then
+        # Create a symlink to the freshly generated Rofi image
+        ln -sfn -- "$rofi_cropped" "$CACHE_DIR/current_rofi_wallpaper"
+    else
+        printf 'Warning: Failed to generate Rofi cropped wallpaper.\n' >&2
+    fi
 
     # Also expose an extension-preserving cache link for manual Matugen calls.
     extension="${resolved##*.}"

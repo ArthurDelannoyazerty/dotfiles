@@ -47,7 +47,7 @@ imagebox {
     expand: false;
     /* Match the 400 px height */
     width: 711px;       
-    background-image: url("~/.cache/current_wallpaper", height);
+    background-image: url("~/.cache/current_rofi_wallpaper", none);
     children: [ "dummy" ];
 }
 
