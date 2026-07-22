@@ -1,113 +1,117 @@
 configuration {
-    /* Only display the drun (application) mode */
     modi: "drun";
     show-icons: true;
-    display-drun: "";
-    
-    /* Clean application names (no generic descriptions) */
     drun-display-format: "{name}";
     font: "Iosevka Nerd Font 12";
-    
-    /* FIX FOR SEARCH BUG: Strict matching & fzf sorting */
     sort: true;
     sorting-method: "fzf";
     drun-match-fields: "name";
 }
 
-/* Import Matugen Colors */
 @import "colors.rasi"
 
+/* 
+ * GLOBAL RESET
+ * Kills default Rofi styling and explicitly hides the dashed separator line.
+ */
+* {
+    background-color: transparent;
+    text-color: @text;
+    separatorcolor: transparent;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+/* MAIN WINDOW */
 window {
-    width: 750px;
-    height: 400px;
+    width: 850px;
+    height: 480px;
     
-    /* Sharp corners and 1px primary border matching Hyprland */
+    /* Sharp corners & 1px active border matching Hyprland */
     border-radius: 0px;
     border: 1px solid;
     border-color: @primary;
-    
     background-color: @background;
-    padding: 0px;
 }
 
+/* HORIZONTAL LAYOUT: Left Pane (Image) + Right Pane (App List) */
 mainbox {
     orientation: horizontal;
     children: [ "imagebox", "listbox" ];
-    background-color: transparent;
 }
 
-/* Left Pane: Current Wallpaper */
+/* LEFT PANE: Wallpaper Image */
 imagebox {
     expand: false;
-    width: 280px;
-    /* Automatically loads the dynamic wallpaper symlink */
+    width: 380px;
     background-image: url("~/.cache/current_wallpaper", height);
-    background-color: transparent;
+    children: [ "dummy" ];
 }
 
-/* Right Pane: Search & App List */
+/* Dummy widget keeps Rofi from collapsing the left image pane */
+dummy {
+    expand: true;
+}
+
+/* RIGHT PANE: Search Bar & App List */
 listbox {
-    padding: 20px;
+    padding: 25px;
     spacing: 15px;
     orientation: vertical;
     children: [ "inputbar", "listview" ];
-    background-color: transparent;
 }
 
-/* Search Bar */
+/* SEARCH BAR */
 inputbar {
     padding: 12px;
     background-color: @surface;
     border: 1px solid;
     border-color: @inactive;
     border-radius: 0px;
-    children: [ "prompt", "entry" ];
-}
-
-prompt {
-    text-color: @primary;
-    background-color: transparent;
-    margin: 0px 10px 0px 0px;
+    children: [ "entry" ];
 }
 
 entry {
-    placeholder: "Search applications...";
+    placeholder: "";
     text-color: @text;
-    background-color: transparent;
+    vertical-align: 0.5;
 }
 
-/* Application List */
+/* APPLICATION LIST */
 listview {
     columns: 1;
     lines: 7;
     cycle: true;
     dynamic: true;
-    layout: vertical;
-    background-color: transparent;
-    spacing: 5px;
+    scrollbar: false;
+    spacing: 6px;
+    /* Forces removal of any default borders or separators */
+    border: 0px;
 }
 
+/* INDIVIDUAL ITEMS */
 element {
     padding: 10px;
     spacing: 15px;
-    background-color: transparent;
-    text-color: @text;
-    border-radius: 0px;
+    border-radius: 4px;
 }
 
-/* Selected Application Highlight */
-element selected {
+element normal.normal, element alternate.normal {
+    background-color: transparent;
+    text-color: @text;
+}
+
+element selected.normal {
     background-color: @primary;
     text-color: @background;
 }
 
 element-icon {
     size: 24px;
-    background-color: transparent;
 }
 
 element-text {
     vertical-align: 0.5;
-    text-color: inherit; /* Inherits the inverted color when selected */
-    background-color: transparent;
+    text-color: inherit;
 }
