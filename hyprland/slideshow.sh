@@ -152,6 +152,7 @@ generate_palette() {
 reload_ui() {
     pkill -SIGUSR2 waybar >/dev/null 2>&1 || true
     hyprctl reload >/dev/null 2>&1 || true
+    pkill dunst >/dev/null 2>&1 || true    # <--- Add this line
 }
 
 rotate_wallpaper() (
