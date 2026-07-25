@@ -70,7 +70,20 @@ exists eza    && alias ll='eza -al --icons --group-directories-first'
 # alias rm='rm -i'
 
 # SSH Agent Bitwarden
-export SSH_AUTH_SOCK=~/.bitwarden-ssh-agent.sock
+# Smart Bitwarden SSH Agent Detection (Flatpak vs Native)
+if [ -S "$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock" ]; then
+    # 1. Active Flatpak socket found
+    export SSH_AUTH_SOCK="$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+elif [ -S "$HOME/.bitwarden-ssh-agent.sock" ]; then
+    # 2. Active Native socket found
+    export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+elif [ -d "$HOME/.var/app/com.bitwarden.desktop" ]; then
+    # 3. Fallback for Flatpak systems (before Bitwarden starts)
+    export SSH_AUTH_SOCK="$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+else
+    # 4. Fallback for Native Linux systems
+    export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+fi
 
 
 # 5. Python & Environment
