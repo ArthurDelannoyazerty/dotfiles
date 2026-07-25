@@ -5,7 +5,7 @@ configuration {
     font: "Iosevka Nerd Font 12";
     sort: true;
     sorting-method: "fzf";
-    drun-match-fields: "name";
+    // drun-match-fields: "name";
 }
 
 @import "colors.rasi"
