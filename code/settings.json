@@ -73,6 +73,7 @@
     // ----- AI -----
     "geminicodeassist.enableTelemetry": false,
 
+    "window.dialogStyle": "native",
 
     /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
 

@@ -16,7 +16,7 @@ if [ "$ACTION" == "record" ] && pgrep -x "wf-recorder" > /dev/null; then
     if [ -n "$LATEST_VID" ]; then
         ACTION_BTN=$(notify-send -i video-x-generic -A "default=Open" "Recording Stopped" "Click to open")
         if [[ "$ACTION_BTN" == *"default"* ]]; then
-            nohup nautilus --select "$LATEST_VID" </dev/null >/dev/null 2>&1 & disown
+            nohup nemo "$LATEST_VID" </dev/null >/dev/null 2>&1 & disown
         fi
     fi
     exit 0
@@ -51,7 +51,7 @@ if [ "$ACTION" == "screenshot" ]; then
     
     ACTION_BTN=$(notify-send -i "$FILE" -A "default=Open" "Screenshot Saved" "Click to open")
     if [[ "$ACTION_BTN" == *"default"* ]]; then
-        nohup nautilus --select "$FILE" </dev/null >/dev/null 2>&1 & disown
+        nohup nemo "$FILE" </dev/null >/dev/null 2>&1 & disown
     fi
 
 elif [ "$ACTION" == "record" ]; then
