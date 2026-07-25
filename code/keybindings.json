@@ -47,5 +47,51 @@
         "key": "ctrl+shift+v",
         "command": "-notebook.cell.pasteAbove",
         "when": "notebookEditorFocused && !inputFocus"
+    },
+    /// Smart Ctrl+C: Copies if selection exists, otherwise sends SIGINT
+    {
+        "key": "ctrl+c",
+        "command": "workbench.action.terminal.copySelection",
+        "when": "terminalFocus && terminalTextSelected"
+    },
+
+    // Standard Ctrl+V for paste
+    {
+        "key": "ctrl+v",
+        "command": "workbench.action.terminal.paste",
+        "when": "terminalFocus"
+    },
+
+    // Delete word backward with Ctrl+Backspace (\x17)
+    {
+        "key": "ctrl+backspace",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": { "text": "\u001b\u007f" },
+        "when": "terminalFocus"
+    },
+
+    // Delete word forward with Ctrl+Delete (\x1bd)
+    {
+        "key": "ctrl+delete",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": { "text": "\u001bd" },
+        "when": "terminalFocus"
+    },
+
+    // Terminal Zoom shortcuts
+    {
+        "key": "ctrl+equal",
+        "command": "workbench.action.terminal.fontZoomIn",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+minus",
+        "command": "workbench.action.terminal.fontZoomOut",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+0",
+        "command": "workbench.action.terminal.fontZoomReset",
+        "when": "terminalFocus"
     }
 ]

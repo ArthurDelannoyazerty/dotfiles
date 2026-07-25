@@ -75,6 +75,11 @@
 
     "window.dialogStyle": "native",
 
+    "terminal.integrated.commandsToSkipShell": [
+        "workbench.action.terminal.copySelection",
+        "workbench.action.terminal.paste"
+    ],
+
     /* ----------------------- END OF CUSTOM USER SETTINGS ---------------------- */
 
 
