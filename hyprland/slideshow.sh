@@ -236,13 +236,21 @@ run_loop() {
 
     trap 'stop_requested=1; [ -n "$sleep_pid" ] && kill "$sleep_pid" 2>/dev/null || true' INT TERM
 
-    while ((stop_requested == 0)); do
+    # On boot, restore the existing cached wallpaper instead of picking a new random one
+    if [ -f "$CURRENT_LINK" ]; then
+        start_awww_daemon && awww img "$(readlink -f "$CURRENT_LINK")" >/dev/null 2>&1 || true
+    else
         rotate_wallpaper || true
+    fi
 
+    # 2Wait for the interval BEFORE picking the next random wallpaper
+    while ((stop_requested == 0)); do
         sleep "$INTERVAL_SECONDS" 8>&- 9>&- &
         sleep_pid=$!
         wait "$sleep_pid" 2>/dev/null || true
         sleep_pid=""
+
+        rotate_wallpaper || true
     done
 }
 
