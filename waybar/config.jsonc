@@ -40,7 +40,8 @@
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": " Muted",
-        "on-click": "pamixer -t",
+        "on-click": "env XDG_CONFIG_HOME=~/.config/rofi/rofi-applets rofi-pulse-select sink",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "scroll-step": 5,
         "format-icons": {
             "default": ["", "", ""]
@@ -51,6 +52,7 @@
         "format-wifi": "{icon} {signalStrength}%",
         "format-ethernet": " Wired",
         "format-disconnected": "⚠ Offline",
+        "on-click": "env XDG_CONFIG_HOME=~/.config/rofi/rofi-applets rofi-network-manager",
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
     },
     

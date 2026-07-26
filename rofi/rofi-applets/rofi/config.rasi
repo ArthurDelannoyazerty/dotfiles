@@ -1,0 +1,84 @@
+configuration {
+    click-to-exit: true;
+}
+
+@import "~/.config/rofi/colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color: @text;
+    separatorcolor: transparent;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+window {
+    location: north east;
+    anchor: north east;
+    x-offset: -10px;    
+    y-offset: 40px;     
+    width: 380px;
+    
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: @primary;
+    background-color: @background;
+}
+
+mainbox {
+    padding: 15px;
+    spacing: 15px;
+    orientation: vertical;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    padding: 12px;
+    background-color: @surface;
+    border: 1px solid;
+    border-color: @inactive;
+    children: [ "entry" ];
+}
+
+entry {
+    placeholder: "Search...";
+    text-color: @text;
+    vertical-align: 0.5;
+}
+
+listview {
+    columns: 1;
+    lines: 6;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    spacing: 6px;
+    border: 0px;
+}
+
+element {
+    padding: 10px 12px;
+    border-radius: 4px;
+}
+
+/* Normal unselected items */
+element normal.normal, 
+element alternate.normal {
+    background-color: transparent;
+    text-color: @text;
+}
+
+/* Currently Active/Connected item (Fixes the unreadable beige box!) */
+element normal.active, 
+element alternate.active {
+    background-color: @surface;
+    text-color: @primary;
+}
+
+/* Hovered / Keyboard Selected item */
+element selected.normal,
+element selected.active {
+    background-color: @primary;
+    text-color: @background;
+}
