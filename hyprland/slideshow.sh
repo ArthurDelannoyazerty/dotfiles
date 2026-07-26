@@ -243,7 +243,7 @@ run_loop() {
         rotate_wallpaper || true
     fi
 
-    # 2Wait for the interval BEFORE picking the next random wallpaper
+    # Wait for the interval BEFORE picking the next random wallpaper
     while ((stop_requested == 0)); do
         sleep "$INTERVAL_SECONDS" 8>&- 9>&- &
         sleep_pid=$!
