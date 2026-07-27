@@ -1,0 +1,4 @@
+[server]
+# Enable the percentage text on the right side
+show_percentage = true
+

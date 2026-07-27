@@ -1,7 +1,7 @@
 * {
-    primary: #d6bbfb;
-    background: #151218;
-    surface: #4a454e;
-    text: #e7e0e8;
-    inactive: #4a454e;
+    primary: #fbb0d8;
+    background: #181115;
+    surface: #504349;
+    text: #eddfe4;
+    inactive: #504349;
 }

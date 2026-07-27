@@ -1,0 +1,37 @@
+window {
+    padding: 12px 18px;
+    background-color: #151218;
+    border: 1px solid #d6bbfb;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#osd {
+    margin: 0;
+}
+
+image {
+    color: #e7e0e8;
+}
+
+label {
+    color: #e7e0e8;
+    font-family: "Iosevka Nerd Font Mono", monospace;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+progress {
+    min-height: 8px;
+    border-radius: 0;
+    background-color: #4a454e;
+}
+
+progress > trough > progress {
+    background-color: #d6bbfb;
+    border-radius: 0;
+}
+
+progress.overdrive > trough > progress {
+    background-color: #f38ba8;
+}
