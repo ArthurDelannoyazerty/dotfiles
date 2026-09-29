@@ -14,6 +14,7 @@ declare -A SYMLINK_MAP=(
   ["code/keybindings.json"]=".config/Code/User/keybindings.json"
   ["code/launch.json"]=".config/Code/User/launch.json"
   ["vibe/config.toml"]=".vibe/config.toml"
+  ["opencode/opencode.jsonc"]=".config/opencode/opencode.jsonc"
 )
 
 echo "🚀 Starting dotfiles setup..."
