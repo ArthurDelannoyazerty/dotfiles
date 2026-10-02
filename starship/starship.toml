@@ -82,7 +82,7 @@ style = 'fg:255 bg:color_bg'
 disabled = false
 
 [directory]
-format ='[$read_only]($read_only_style)[ ](fg:31 bg:color_bg)[$path ]($style)'
+format ='[$read_only]($read_only_style)[](fg:31 bg:color_bg)[$path ]($style)'
 style = 'fg:39 bg:color_bg'
 read_only_style = 'bold fg:31 bg:color_bg'
 repo_root_format = '[$read_only]($read_only_style)[ ](fg:31 bg:color_bg)[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path ]($style)'
